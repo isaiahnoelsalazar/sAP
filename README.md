@@ -2,5 +2,5 @@
 
 Available Modules:
 
-sapModule QR Generator - https://github.com/saiaaaaaaa/sAPModule_QRGN
-sAPModule QR Scanner - https://github.com/saiaaaaaaa/sAPModule_QRSC
+- sapModule QR Generator - https://github.com/saiaaaaaaa/sAPModule_QRGN
+- sAPModule QR Scanner - https://github.com/saiaaaaaaa/sAPModule_QRSC
