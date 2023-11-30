@@ -1,6 +1,7 @@
 package com.salazarisaiahnoel.sap;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,13 +10,15 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.OnItemClickListener {
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         t1 = findViewById(R.id.thint);
 
         checkModules();
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
         sma = new sAPModuleAdapter(this, list, MainActivity.this);
         rv.setAdapter(sma);
+
+        rv.addItemDecoration(new RecyclerViewVerticalSpace(8));
     }
 
     @Override
@@ -55,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
     void setModules(){
         List<ApplicationInfo> packages = getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
+        Collections.sort(packages, new Comparator<ApplicationInfo>() {
+            @Override
+            public int compare(ApplicationInfo app1, ApplicationInfo app2) {
+                String appName1 = getPackageManager().getApplicationLabel(app1).toString();
+                String appName2 = getPackageManager().getApplicationLabel(app2).toString();
+                return appName1.compareToIgnoreCase(appName2);
+            }
+        });
         for (int a = 0; a < packages.size(); a++){
             ApplicationInfo info = packages.get(a);
             if (info.packageName.contains("salazarisaiahnoel") && info.loadLabel(getPackageManager()).toString().contains("sAP: ")){
@@ -67,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
         list.clear();
         packageList.clear();
         setModules();
-        for (Map.Entry<String, String> e : modules.entrySet()){
+        Map<String, String> sortedModules = new TreeMap<>(modules);
+
+        for (Map.Entry<String, String> e : sortedModules.entrySet()){
             if (isAppInstalled(e.getValue())){
                 t1.setText("");
                 list.add(e.getKey());
