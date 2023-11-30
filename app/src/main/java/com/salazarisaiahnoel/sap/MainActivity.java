@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,8 +54,13 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
     }
 
     void setModules(){
-        modules.put("QR Generator", "com.salazarisaiahnoel.sapmodule_qrgn");
-        modules.put("QR Scanner", "com.salazarisaiahnoel.sapmodule_qrsc");
+        List<ApplicationInfo> packages = getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
+        for (int a = 0; a < packages.size(); a++){
+            ApplicationInfo info = packages.get(a);
+            if (info.packageName.contains("salazarisaiahnoel") && info.loadLabel(getPackageManager()).toString().contains("sAP: ")){
+                modules.put(info.loadLabel(getPackageManager()).toString().replace("sAP: ", ""), info.packageName);
+            }
+        }
     }
 
     void checkModules(){

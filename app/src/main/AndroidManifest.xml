@@ -22,5 +22,9 @@
             </intent-filter>
         </activity>
     </application>
-
+    <queries>
+        <package android:name="com.salazarisaiahnoel.sapmodule_qrgn"/>
+        <package android:name="com.salazarisaiahnoel.sapmodule_qrsc"/>
+        <package android:name="com.salazarisaiahnoel.sapmodule_shpl"/>
+    </queries>
 </manifest>
