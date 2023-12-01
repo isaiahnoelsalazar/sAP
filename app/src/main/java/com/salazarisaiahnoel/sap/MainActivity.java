@@ -41,14 +41,11 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
         t1 = findViewById(R.id.thint);
 
-        checkModules();
-
         rv = findViewById(R.id.rv);
         llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
 
-        sma = new sAPModuleAdapter(this, list, MainActivity.this);
-        rv.setAdapter(sma);
+        checkModules();
 
         rv.addItemDecoration(new RecyclerViewVerticalSpace(8));
     }
@@ -93,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
                 t1.setText("No modules installed.");
             }
         }
+
+        sma = new sAPModuleAdapter(this, list, MainActivity.this);
+        rv.setAdapter(sma);
     }
 
     boolean isAppInstalled(String packageName){
