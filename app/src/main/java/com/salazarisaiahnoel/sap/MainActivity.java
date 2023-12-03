@@ -58,19 +58,15 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
     }
 
     void setModules(){
-        List<ApplicationInfo> packages = getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
-        Collections.sort(packages, new Comparator<ApplicationInfo>() {
-            @Override
-            public int compare(ApplicationInfo app1, ApplicationInfo app2) {
-                String appName1 = getPackageManager().getApplicationLabel(app1).toString();
-                String appName2 = getPackageManager().getApplicationLabel(app2).toString();
-                return appName1.compareToIgnoreCase(appName2);
-            }
-        });
-        for (int a = 0; a < packages.size(); a++){
-            ApplicationInfo info = packages.get(a);
-            if (info.packageName.contains("salazarisaiahnoel") && info.loadLabel(getPackageManager()).toString().contains("sAP: ")){
-                modules.put(info.loadLabel(getPackageManager()).toString().replace("sAP: ", ""), info.packageName);
+        PackageManager packageManager = getPackageManager();
+        List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo info : packages) {
+            if (info.packageName.contains("salazarisaiahnoel")) {
+                CharSequence label = info.loadLabel(packageManager);
+                if (label.toString().contains("sAP: ")) {
+                    modules.put(label.toString().replace("sAP: ", ""), info.packageName);
+                }
             }
         }
     }
@@ -81,14 +77,20 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
         setModules();
         Map<String, String> sortedModules = new TreeMap<>(modules);
 
-        for (Map.Entry<String, String> e : sortedModules.entrySet()){
-            if (isAppInstalled(e.getValue())){
-                t1.setText("");
+        boolean modulesInstalled = false;
+
+        for (Map.Entry<String, String> e : sortedModules.entrySet()) {
+            if (isAppInstalled(e.getValue())) {
                 list.add(e.getKey());
                 packageList.add(e.getValue());
-            } else {
-                t1.setText("No modules installed.");
+                modulesInstalled = true;
             }
+        }
+
+        if (modulesInstalled) {
+            t1.setText("");
+        } else {
+            t1.setText("No modules installed.");
         }
 
         sma = new sAPModuleAdapter(this, list, MainActivity.this);
