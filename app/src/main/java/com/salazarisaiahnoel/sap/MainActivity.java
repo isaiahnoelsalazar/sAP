@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
         for (ApplicationInfo info : packages) {
             if (info.packageName.contains("salazarisaiahnoel")) {
+                System.out.println(info.packageName);
                 CharSequence label = info.loadLabel(packageManager);
                 if (label.toString().contains("sAP: ")) {
                     modules.put(label.toString().replace("sAP: ", ""), info.packageName);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
     @Override
     public void onItemClick(int position) {
-        Intent i = new Intent();
+        Intent i = new Intent("com.salazarisaiahnoel.sapmodule.OPEN_MODULE");
         i.setComponent(new ComponentName(packageList.get(position), packageList.get(position) + ".MainActivity"));
         startActivity(i);
     }

@@ -24,8 +24,9 @@
         </activity>
     </application>
     <queries>
-        <package android:name="com.salazarisaiahnoel.sapmodule_qrgn"/>
-        <package android:name="com.salazarisaiahnoel.sapmodule_qrsc"/>
-        <package android:name="com.salazarisaiahnoel.sapmodule_shpl"/>
+        <intent>
+            <action android:name="com.salazarisaiahnoel.sapmodule.OPEN_MODULE" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent>
     </queries>
 </manifest>
