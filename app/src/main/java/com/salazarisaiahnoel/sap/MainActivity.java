@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements sAPModuleAdapter.
 
         for (ApplicationInfo info : packages) {
             if (info.packageName.contains("salazarisaiahnoel")) {
-                System.out.println(info.packageName);
                 CharSequence label = info.loadLabel(packageManager);
                 if (label.toString().contains("sAP: ")) {
                     modules.put(label.toString().replace("sAP: ", ""), info.packageName);
